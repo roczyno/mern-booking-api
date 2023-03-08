@@ -18,12 +18,22 @@ const connect = async () => {
 };
 
 //middlewares
-
+app.use(express.json());
 app.use("/api/auth", AuthRoute);
 app.use("/api/users", UsersRoute);
 app.use("/api/hotels", HotelsRoute);
 app.use("/api/rooms", RoomsRoute);
 
+app.use((err, req, res, next) => {
+  const errorStatus = err.status || 500;
+  const errorMessage = err.message || "Something went wrong";
+  return res.status(errorStatus).json({
+    success: false,
+    stack: err.stack,
+    message: errorMessage,
+    status: errorStatus,
+  });
+});
 app.listen(5000, () => {
   connect();
   console.log("server running..");
