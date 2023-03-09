@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
 import AuthRoute from "./routes/auth.route.js";
 import UsersRoute from "./routes/users.route.js";
 import RoomsRoute from "./routes/rooms.route.js";
@@ -19,6 +20,7 @@ const connect = async () => {
 
 //middlewares
 app.use(express.json());
+app.use(cookieParser());
 app.use("/api/auth", AuthRoute);
 app.use("/api/users", UsersRoute);
 app.use("/api/hotels", HotelsRoute);

@@ -1,5 +1,6 @@
 import User from "../models/users.model.js";
 import CryptoJS from "crypto-js";
+import jwt from "jsonwebtoken";
 
 export const register = async (req, res, next) => {
   const newUser = new User({
@@ -30,9 +31,18 @@ export const login = async (req, res, next) => {
     const originalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
     originalPassword !== req.body.password &&
       res.status(401).json("Wrong credentials!");
-    const { password, ...others } = user._doc;
+    const token = jwt.sign(
+      { id: user._id, isAdmin: user.isAdmin },
+      process.env.SECRET_KEY
+    );
+    const { password, isAdmin, ...others } = user._doc;
 
-    res.status(200).json(others);
+    res
+      .cookie("access_token", token, {
+        httpOnly: true,
+      })
+      .status(200)
+      .json({ ...others });
   } catch (error) {
     next(error);
   }

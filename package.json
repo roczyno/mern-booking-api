@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/roczyno/mern-booking-api#readme",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "crypto-js": "^4.1.1",
     "dotenv": "^16.0.3",
