@@ -7,16 +7,17 @@ import {
   updateHotels,
   getAllHotels,
 } from "../controllers/hotels.controller.js";
+import { verifyIsAdmin, verifyUser } from "../utils/verifyToken.js";
 
 //create
 
-router.post("/", createHotels);
+router.post("/", verifyIsAdmin, createHotels);
 
 //update
-router.put("/:id", updateHotels);
+router.put("/:id", verifyIsAdmin, updateHotels);
 
 // delete
-router.delete("/:id", deleteHotel);
+router.delete("/:id", verifyIsAdmin, deleteHotel);
 
 //Get hotel
 

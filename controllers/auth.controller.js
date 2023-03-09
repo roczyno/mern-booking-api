@@ -1,6 +1,7 @@
 import User from "../models/users.model.js";
 import CryptoJS from "crypto-js";
 import jwt from "jsonwebtoken";
+import { createError } from "../utils/error.js";
 
 export const register = async (req, res, next) => {
   const newUser = new User({
