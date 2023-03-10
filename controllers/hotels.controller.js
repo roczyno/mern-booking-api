@@ -5,7 +5,7 @@ export const createHotels = async (req, res, next) => {
     const savedHotel = await newHotel.save();
     res.status(200).json(savedHotel);
   } catch (error) {
-    next(err);
+    next(error);
   }
 };
 
@@ -20,7 +20,7 @@ export const updateHotels = async (req, res, next) => {
     );
     res.status(200).json(updatedHotel);
   } catch (error) {
-    next(err);
+    next(error);
   }
 };
 
@@ -29,7 +29,7 @@ export const deleteHotel = async (req, res, next) => {
     await hotelsModel.findByIdAndDelete(req.params.id);
     res.status("deleted successfully");
   } catch (error) {
-    next(err);
+    next(error);
   }
 };
 
@@ -38,7 +38,7 @@ export const getHotel = async (req, res, next) => {
     const hotel = await hotelsModel.findById(req.params.id);
     res.status(200).json(hotel);
   } catch (error) {
-    next(err);
+    next(error);
   }
 };
 
@@ -47,6 +47,22 @@ export const getAllHotels = async (req, res, next) => {
     const hotels = await hotelsModel.find();
     res.status(200).json(hotels);
   } catch (error) {
-    next(err);
+    next(error);
   }
 };
+
+export const countByCity = async (req, res, next) => {
+  const cities = req.query.cities.split(",");
+  try {
+    const lists = await Promise.all(
+      cities.map((city) => {
+        return hotelsModel.countDocuments({ city: city });
+      })
+    );
+    res.status(200).json(lists);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const countByType = async (req, res, next) => {};
